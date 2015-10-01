@@ -5,6 +5,7 @@ void * cam_read(void *arg) {
     int frame_finished;
     state *cam = (struct state *)arg;
     int frame_cnt = 0;
+    int fall_cnt = 0;
     while (1)
     {
         av_frame_unref(cam->frame);
@@ -34,7 +35,12 @@ void * cam_read(void *arg) {
             }
         }
         if (!frame_finished)
-            cout<<"ERROR"<<cam->id<<": Decode frame not complete\n";
+        {
+            cerr<<"ERROR"<<cam->id<<": Decode frame not complete\n";
+            fall_cnt ++;
+        }
+        else (fall_cnt > 1)?fall_cnt -- : fall_cnt = 0;
+        if (fall_cnt > 20) break;
     }
     pthread_exit(NULL);
 }
