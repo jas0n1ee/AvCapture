@@ -25,9 +25,10 @@ void * cam_read(void *arg) {
                 cam->buffer->push_back(&(cam->rgb));
                 if (cam->buffer->size() > cam->buffer_size)
                     cam->buffer->erase(cam->buffer->begin());
+                cam->fcnt ++;
                 pthread_mutex_unlock(cam->buff_mutex);
                 pthread_cond_signal(cam->cond_camready);
-                frame_cnt++;
+                frame_cnt ++;
                 if (cam->debug)
                     cout <<"process "<<cam->id<<" read finished :"<<frame_cnt<<endl;
             }
@@ -37,9 +38,10 @@ void * cam_read(void *arg) {
     }
     pthread_exit(NULL);
 }
-AvCapture::AvCapture(int id)
+AvCapture::AvCapture(int id, bool debug)
 {
     this->id = id;
+    this->debug = debug;
     pthread_mutex_init(&buff_mutex, NULL);
     pthread_cond_init(&cond_camready, NULL);
 }
@@ -68,7 +70,8 @@ int AvCapture::init(string url, int buffer_size)
     info.buff_mutex = &buff_mutex;
     info.cond_camready = &cond_camready;
     info.id = id;
-    info.debug = true;
+    info.debug = debug;
+    info.fcnt = &this->fcnt;
     return ret;
 }
 

@@ -33,18 +33,21 @@ struct state {
     vector<Mat *> *buffer;
     int buffer_size;
     int id;
+    int* fcnt;
     bool debug = false;
 };
 
 class AvCapture
 {
 public:
-    AvCapture(int id=0);
+    AvCapture(int id=0, bool debug = false);
     ~AvCapture();
     int init(string url, int buffer_size);
     void startcapture();
     bool lastframe(Mat &);
     int id;
+    int fcnt=0;
+    bool debug=false;
     friend void * cam_read(void *arg);
     pthread_mutex_t buff_mutex;
     pthread_cond_t cond_camready;
