@@ -29,6 +29,7 @@ void * cam_read(void *arg) {
                 cam->fcnt ++;
                 pthread_mutex_unlock(cam->buff_mutex);
                 pthread_cond_signal(cam->cond_camready);
+                
                 frame_cnt ++;
                 if (cam->debug)
                     cout <<"process "<<cam->id<<" read finished :"<<frame_cnt<<endl;
@@ -53,6 +54,11 @@ AvCapture::AvCapture(int id, bool debug)
 }
 AvCapture::~AvCapture()
 {
+    if (thread_id)
+    {
+        pthread_cancel(thread_id);
+        thread_id = NULL;
+    }
     buffer.clear();
 }
 int AvCapture::init(string url, int buffer_size)
@@ -86,9 +92,9 @@ bool AvCapture::lastframe(Mat &dst)
     pthread_mutex_lock(&buff_mutex);
     while (buffer.size() == 0)
         pthread_cond_wait(&cond_camready, &buff_mutex);
-    Mat *last = buffer.back();
+    Mat *last = buffer[0];
     last->copyTo(dst);
-    buffer.pop_back();
+    buffer.erase(buffer.begin());
     pthread_mutex_unlock(&buff_mutex);
     
     return true;
@@ -101,11 +107,15 @@ void AvCapture::startcapture()
 
 void AvCapture::showlastframe(int cnt = -1)
 {
-    Mat pic;
+    Mat* pic;
     for (int i = cnt; i!=0; i--)
     {
-        lastframe(pic);
-        imshow("Capture", pic);
+        pthread_mutex_lock(&buff_mutex);
+        while (buffer.size() == 0)
+            pthread_cond_wait(&cond_camready, &buff_mutex);
+        pic = buffer.back();
+        imshow("Capture", *pic);
+        pthread_mutex_unlock(&buff_mutex);
         cvWaitKey(1);
     }
 }

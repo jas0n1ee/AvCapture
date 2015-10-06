@@ -40,11 +40,26 @@ struct state {
 class AvCapture
 {
 public:
+    /*  Create object with a uniq id and debug mode.
+        With debug mode on, avcapture will auto 
+        print cam id and frame count on cli */
     AvCapture(int id=0, bool debug = false);
     ~AvCapture();
+    /*  Init object with rtsp url and buffer_size.
+        Everytime you lunch a lastframe(Mat &) func
+        the first img in buffer will pop out. And when
+        buffer is full it will remove the oldest frame.
+        When this func return 0, it's ready to start 
+        capture*/
     int init(string url, int buffer_size);
+    /*  Only lunch startcapture() after lunching 
+        init(string, int) func with a return value 0.
+        It will create a thread to capture in background*/
     void startcapture();
+    /*  Run this func to catch up with the first img
+        in the buffer */
     bool lastframe(Mat &);
+    /*  Run this func to show the latest img */
     void showlastframe(int);
     int id;
     int fcnt=0;
