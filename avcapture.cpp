@@ -98,3 +98,14 @@ void AvCapture::startcapture()
 {
     pthread_create(&thread_id, NULL, cam_read, &info);
 }
+
+void AvCapture::showlastframe(int cnt = -1)
+{
+    Mat pic;
+    for (int i = cnt; i!=0; i--)
+    {
+        lastframe(pic);
+        imshow("Capture", pic);
+        cvWaitKey(1);
+    }
+}

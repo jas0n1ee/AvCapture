@@ -45,6 +45,7 @@ public:
     int init(string url, int buffer_size);
     void startcapture();
     bool lastframe(Mat &);
+    void showlastframe(int);
     int id;
     int fcnt=0;
     bool debug=false;

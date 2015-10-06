@@ -14,11 +14,6 @@ int main(int argc, char* argv[])
     if (sample.init(argv[1], 10) == 0)
         sample.startcapture();
     else exit(0);
-    while (1)
-    {
-        Mat lst_frame;
-        sample.lastframe(lst_frame);
-        imshow("Video0",lst_frame);
-        cvWaitKey(1);
-    }
+
+    sample.showlastframe(1000);
 }
