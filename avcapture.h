@@ -13,7 +13,6 @@
 extern "C" {
 #include <libavformat/avformat.h>
 }
-#endif
 
 using namespace std;
 using namespace cv;
@@ -73,3 +72,4 @@ private:
     pthread_t thread_id;
 
 };
+#endif
