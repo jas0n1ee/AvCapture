@@ -1,12 +1,8 @@
 #ifndef AVCAPTURE_H
 #define AVCAPTURE_H
-#include "opencv2/opencv.hpp"
-#include "opencv2/video.hpp"
-#include "opencv2/highgui.hpp"
-#include "opencv2/imgproc.hpp"
-#include "opencv2/imgcodecs.hpp"
-#include "opencv2/features2d.hpp"
-#include "opencv2/video/background_segm.hpp"
+#include <opencv2/opencv.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 #include <vector>
 #include <pthread.h>
 #include <algorithm>
