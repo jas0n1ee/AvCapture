@@ -25,16 +25,20 @@ install(FILES       "${CMAKE_CURRENT_BINARY_DIR}/avcapture.pc"
 SET( MAKE_NAN_SOLUTION ON )
 SET( CMAKE_INSTALL_PREFIX /usr/local )
 SET( main_SRCS main.cpp avcapture.cpp avcapture.h )
+
 LINK_DIRECTORIES( ${SYS_LIB} )
 ADD_EXECUTABLE(sample  ${main_SRCS} )
 TARGET_LINK_LIBRARIES( sample ${OpenCV_LIBS} )
 TARGET_LINK_LIBRARIES( sample avformat avcodec avutil swscale avdevice )
-ADD_LIBRARY(avcapture STATIC avcapture.cpp)
+
+ADD_LIBRARY(avcapture SHARED avcapture.cpp)
 TARGET_LINK_LIBRARIES( avcapture ${OpenCV_LIBS} )
 TARGET_LINK_LIBRARIES( avcapture avformat avcodec avutil swscale avdevice )
 SET_TARGET_PROPERTIES( avcapture  PROPERTIES VERSION 1 )
-INSTALL( TARGETS avcapture ARCHIVE DESTINATION lib/ )
+
+INSTALL( TARGETS avcapture LIBRARY DESTINATION lib/ )
 INSTALL( FILES avcapture.h DESTINATION include/ )
+
 IF(${MAKE_NAN_SOLUTION})
     ADD_SUBDIRECTORY(./node-addon)
 ENDIF()
