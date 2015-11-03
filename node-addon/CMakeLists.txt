@@ -1,0 +1,10 @@
+# vim: syntax=cmake
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+PROJECT( AVCAPTURE )
+FIND_PACKAGE( OpenCV REQUIRED )
+INCLUDE_DIRECTORIES( ${OpenCV_INCLUDE_DIRS} ../node_modules/nan/ /usr/local/include/node)
+SET( main_SRCS ../avcapture_wrap.cc ../avcapture_wrap.h ../avcapture.h ../avcapture.cpp )
+LINK_DIRECTORIES( ${SYS_LIB} )
+ADD_LIBRARY( avcapture-node ${main_SRCS} )
+TARGET_LINK_LIBRARIES( avcapture-node ${OpenCV_LIBS} )
+TARGET_LINK_LIBRARIES( avcapture-node avformat avcodec avutil swscale avdevice )
