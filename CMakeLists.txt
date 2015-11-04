@@ -31,6 +31,10 @@ ADD_EXECUTABLE(sample  ${main_SRCS} )
 TARGET_LINK_LIBRARIES( sample ${OpenCV_LIBS} )
 TARGET_LINK_LIBRARIES( sample avformat avcodec avutil swscale avdevice )
 
+ADD_EXECUTABLE(sample2  sample2.cpp )
+TARGET_LINK_LIBRARIES( sample2 ${OpenCV_LIBS} )
+TARGET_LINK_LIBRARIES( sample2 avcapture )
+
 ADD_LIBRARY(avcapture SHARED avcapture.cpp)
 TARGET_LINK_LIBRARIES( avcapture ${OpenCV_LIBS} )
 TARGET_LINK_LIBRARIES( avcapture avformat avcodec avutil swscale avdevice )
