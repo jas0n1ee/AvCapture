@@ -56,6 +56,7 @@ public:
     bool lastframe(Mat &);
     /*  Run this func to show the latest img */
     void showlastframe(int);
+    void stop();
     int id;
     int fcnt=0;
     bool debug=false;

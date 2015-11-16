@@ -119,3 +119,10 @@ void AvCapture::showlastframe(int cnt = -1)
         cvWaitKey(1);
     }
 }
+void AvCapture::stop() {
+    if (thread_id)
+    {
+        pthread_cancel(thread_id);
+        thread_id = NULL;
+    }
+}
