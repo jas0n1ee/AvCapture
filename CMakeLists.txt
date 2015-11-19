@@ -22,7 +22,7 @@ ENDIF()
 configure_file("avcapture.pc.in" "avcapture.pc" @ONLY)
 install(FILES       "${CMAKE_CURRENT_BINARY_DIR}/avcapture.pc"
         DESTINATION lib/pkgconfig)
-SET( MAKE_NAN_SOLUTION ON )
+SET( MAKE_NAN_SOLUTION OFF )
 SET( CMAKE_INSTALL_PREFIX /usr/local )
 SET( main_SRCS main.cpp avcapture.cpp avcapture.h )
 
